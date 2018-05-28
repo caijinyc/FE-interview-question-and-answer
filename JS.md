@@ -2,7 +2,7 @@
 # Ajax
 Ajax的原理简单来说通过XmlHttpRequest对象来向服务器发异步请求，从服务器获得数据，然后用javascript来操作DOM而更新页面。
 
-#### 手写 Ajax
+## 手写 Ajax
 ```js
 const ajax = function (opt) {
   const promise = new Promise(function(resolve, reject) {
