@@ -1,4 +1,3 @@
-# JS
 # Ajax
 Ajax的原理简单来说通过XmlHttpRequest对象来向服务器发异步请求，从服务器获得数据，然后用javascript来操作DOM而更新页面。
 
@@ -39,26 +38,12 @@ const ajax = function (opt) {
 }
 ```
 
-#### readyState 五中状态的含义
+### readyState 五中状态的含义
 - 0  未初始化状态：此时，已经创建了一个XMLHttpRequest对象
 - 1	 准备发送状态：此时，已经调用了XMLHttpRequest对象的open方法，并且XMLHttpRequest对象已经准备好将一个请求发送到服务器端
 - 2	 已经发送状态：此时，已经通过send方法把一个请求发送到服务器端，但是还没有收到一个响应
 - 3	 正在接收状态：此时，已经接收到HTTP响应头部信息，但是消息体部分还没有完全接收到
 - 4	 完成响应状态：此时，已经完成了HTTP响应的接收
-
-
-# 跨域
-#### JSONP
-**原理：**  
-利用 script 标签实现，因为不管哪个网站上的 js 文件，只要引入了就可以去运行，所以不受同源策略的影响。
-
-**实现：**  
-当需要通讯的时候，本地创建一个 script 元素，地址指向 api 网址，并提供一个回调函数来接受数据（与后端约定函数名）。
-
-#### CORS 跨域资源共享
-需要在服务器端设置响应头
-
-#### PostMessage
 
 # 闭包
 闭包是函数和声明该函数的词法环境的组合。
@@ -119,30 +104,30 @@ window -> doucument -> html -> body -> ... -> 目标事件
 
 # 继承
 参考：[JS实现继承的几种方法](https://zhuanlan.zhihu.com/p/25578222)
-#### 1.原型链实现继承
+### 1.原型链实现继承
 实现：将 Child 的 prototype 设置为 new Parent() 也就是 Child 的 prototype 为 Parent 的实例。  
 缺点：
 1. 子类型无法给父类型传递参数
 2. Child.prototype 定义方法的时候，必须写在 new Parent 之前
 
-#### 2.构造函数实现
+### 2.构造函数实现
 实现：在创建 Child 构造函数的时候使用 Parent.call(this)（这里的 this 是一个全新的对象，因为调用构造函数的时候会使用 new）  
 缺点：没有原型，且每次生成 Child 实例的时候都需要执行一遍 Parent 函数，无法复用。
 
-#### 3.组合式继承
+### 3.组合式继承
 实现：同时使用方法1和方法2  
 优点：因为同时使用了原型和构造函数，这个即实现了方法的复用，又保证每个实例都有自己的属性。  
 缺点：Parent 构造函数会被调用两次，一次是在子类型构造函数的内部，一次是在创建 Child 原型的时候。
 
-#### 4. 使用 Object.creat() 实现原型继承
+### 4. 使用 Object.creat() 实现原型继承
 使用构造函数的时候发现，在创建 Child 原型的时候调用 Parent 构造函数只是为了获得 Parent 的原型，所以会想到让 Child.prototype = Parent.prototype，但是样子子的话，如果改变 Child.prototype 就会同时改变 Parent.prototype（浅复制）。所以这个时候就需要用到 Object.creat() 来创建 Child.prototype 的构造函数的原型，这样就完美了。
 
-#### 5.ES6 继承
+### 5.ES6 继承
 使用 `extends` 关键字实现继承。
 
 # 数组去重
 参考：https://github.com/lifesinger/blog/issues/113
-#### 直觉方案
+### 直觉方案
 ```js
 function unique (arr) {
   let ret = [], item
@@ -156,7 +141,7 @@ function unique (arr) {
 }
 ```
 
-##### 优化方案
+### 优化方案
 因为 IE6-IE8 不支持 indexOf 所以需要判断是否有 indexOf
 
 ```js
@@ -183,7 +168,7 @@ function unique (arr) {
 }
 ```
 
-#### 使用 ES6 中的 Set
+### 使用 ES6 中的 Set
 参考：http://es6.ruanyifeng.com/#docs/set-map
 
 ```js
@@ -191,7 +176,7 @@ function unique (arr) {
 ```
 
 # 回调函数
-#### Promise
+### Promise
 Promise 简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise对象提供统一的接口，使得控制异步操作更加容易。
 
 **实现 Promise.finally()**  
@@ -240,11 +225,14 @@ makeRequest()
 ```
 很显然，async 不需要写 then，不需要写匿名函数来处理 resolve 的值，还避免了嵌套代码。
 
+### async 的缺点
+当需要检测错误的使用，需要使用 try...catch
+
 # 深拷贝
-#### JSON.parse(JSON.stringify(obj))
+### JSON.parse(JSON.stringify(obj))
 最简单，但是不能复制函数（不能被 JSON.stringify 的会被忽略），且原型链丢失。
 
-#### 递归实现
+### 递归实现
 递归的解决方式是，只要是数组或者对象，那就递归，否则就返回。
 ```js
 // 递归深拷贝
@@ -279,18 +267,18 @@ function clone (val) {
 - 不符合上述规则的时候，则指向全局，游览器里面则指向 window，在严格模式下则为 undefined
 
 # arguments
-#### arguments 是数组吗
-arguments 不是一个数组，它是一个类数组的对象。Array.isArray 返回 false
+### arguments 是数组吗
+arguments 不是一个数组，它是一个类数组的对象。Array.isArray 返回 false。
 
-#### 如何转为数组
+### 如何转为数组
 ```js
 // 方法1
 Array.prototype.slice.apply(arguments)
 
 // 方法2
-Array.prototype.concat.apply([], arguments)
+Array.prototype.concat([], arguments)
 ```
-#### 类数组和数组的区别
+### 类数组和数组的区别
 类数组可以拥有 length 属性，以及索引元素。但是没有别的任何 Array 的属性。
 
 # push, pop, shift, unshift
@@ -322,16 +310,16 @@ function reverse (str) {
 如果需要返回新的数组，那么就使用 map，不需要返回就用 forEach。（都不会改变数组本身）
 
 # slice splice split
-#### slice
+### slice
 slice 用来创建新的数组，**不会改变原来的数组**。接受两个参数，也就是开始截取的位置和结束截取的位置。当只传递一个参数的时候，截取到最后。
 
-#### splice
+### splice
 **强大的数组操作的方法**，*注意：是操作数组的方法，也是是会改变数组本身！*，返回被删除的元素组成的数组。
 
 - 删除数组中的元素： `splice(0, 2) => 从下标 0 开始删除，删除 2 个元素，并返回被删除的元素组成的数组`
 - 插入元素：`splice(2, 0, item1, item2) => 从下标 2 的元素开始 删除 0 个元素，在后面插入 item1、item2`
 
-#### split、join
+### split、join
 split 用来分割字符串变为数组，join 用来将数组拼接成字符串。
 
 # data-x
@@ -339,7 +327,8 @@ split 用来分割字符串变为数组，join 用来将数组拼接成字符串
 
 # 实现 bind()、call()、apply()
 参考：https://www.jianshu.com/p/6a1bc149b598
-#### 实现一个 apply 方法
+
+### 实现一个 apply 方法
 > 思路：apply 是用来调用一个方法的，第一个参数改变方法中调用的 this 的值，第二个参数是数组，是用来传给方法的参数。
 
 1. 先在传入的对象中添加一个方法等于调用的方法
@@ -377,7 +366,7 @@ Function.prototype.myApply = function(obj) {
 }
 ```
 
-#### 实现一个 bind 方法
+### 实现一个 bind 方法
 如果不让使用 apply 的话就先实现一个 apply 吧。
 ```js
 Function.prototype.bind = Function.prototype.bind || function (context) {
@@ -389,3 +378,26 @@ Function.prototype.bind = Function.prototype.bind || function (context) {
   }
 }
 ```
+
+# slice、substr、substring 的区别
+### slice
+slice() 方法可从已有的数组、字符串中返回选定的元素。  
+语法：`str.slice(start, end)`
+
+### substr 和 substring
+substr 和 substring 是用来提取字符串的。区别是 substr 的第二个参数是取出的字符数，而 substring 第二个参数和 slice 一样，是要取出字符串的最后一个字符后面那个字符的索引。
+
+简单的来说就一句话：substr 是从下标开始取出指定数目的字符,而 substring 是取出从下标（参数1）开始到下标（参数2）之间的字符（不包括下标为参数2的字符）。
+```js
+let str = '12345'
+console.log(str.substr(2, 3)) // "345"
+console.log(str.substring(2, 3)) // "3"
+```
+
+# 获取元素的页面坐标
+使用 dom.getBoundingClientRect() 来获取元素距离上下左右的距离。就可以计算出元素位于页面的坐标。
+
+# clientWidth、offsetWidth、scrollWidth 的区别
+- clientWidth = width(可视区) + padding
+- offsetWidth = width(可视区) + padding + border
+- scrollWidth = width(内容区)　
