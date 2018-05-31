@@ -347,15 +347,19 @@ Function.prototype.myApply = function (obj) {
 这样就实现了基本的调用，然后再用 eval 函数来拼接传入 fn 的参数，就 ok 了。
 
 ```js
-Function.prototype.myApply = function(obj) {
+Function.prototype._apply = function (obj) {
   let context = obj || window
-
+  
   // 给对象添加一个方法
   // 因为 myApply 是对象中的一个方法，所以 this 指向调用它的对象（函数也是对象）
   // 使用 ES6 的 Symbol 来定义一个唯一值
   let fn = Symbol()
   context[fn] = this
   let str = '', arg = arguments[1]
+  console.log('arg', arg)
+  if (!arg) {
+    return context[fn]()
+  }
   for (let i = 0; i < arg.length; i++) {
     str += arg[i] + ','
   }
@@ -401,3 +405,23 @@ console.log(str.substring(2, 3)) // "3"
 - clientWidth = width(可视区) + padding
 - offsetWidth = width(可视区) + padding + border
 - scrollWidth = width(内容区)　
+
+# setTimeout() 的原理
+setTimeout 方法包含两个参数，第一个参数为一个函数，第二个参数为以毫秒为单位的时间。该方法的实际作用即：在一定时间之后，把一个函数加入消息队列末尾。如果这个时间点消息队列中还存在其他消息，那么该函数会在排在他之前的消息都执行完之后再开始执行。
+
+# ES6 class 类的原理
+class 就是一个语法糖，让对象原型的写法更加清晰。里面的 `constructor` 方法对应的就是 ES5 中的构造函数，而 class 里面的方法则是定义了构造函数原型上内容。
+
+# innerHTML 和 innerText 的区别
+- innerHTML 指的是从对象的起始位置到终止位置的全部内容，包括 Html 标签。
+- innerText 指的是从起始位置到终止位置的内容，但它去除 Html 标签。
+
+# var, let, const 区别
+- var 声明的变量，其作用域为该语句所在的函数内，且存在变量提升现象，可以重复声明
+- let 会产生块级作用域，不会造成变量提升，无法重新声明(但可以重新赋值)
+- const
+  - 是常量，若是基本数据类型，具有不变性(无法重新赋值改动)
+  - **引用值可以调整内部值！！**(可能设计的时候没有考虑周全!)
+
+
+# 
