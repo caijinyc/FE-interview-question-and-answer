@@ -64,6 +64,48 @@ inline-block：控制元素的垂直对齐跟横向排列元素。
 ### 绝对定位
 没什么好说的。
 
+# 双飞翼布局如何实现
+```css
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  div {
+    min-height: 100px;
+  }
+  .left, .right, .main {
+    float: left;
+  }
+  .left {
+    width: 300px;
+    margin-left: -100%;
+    background: blue;
+  }
+  .right {
+    width: 300px;
+    margin-left: -300px;
+    background: yellow;
+  }
+  .main {
+    width: 100%;
+    background: red;
+  }
+  .main .main-content {
+    margin: 0 300px;
+  }
+</style>
+
+<section>
+  <div class="main">
+    <div class="main-content">#main</div>
+  </div>
+  <div class="left"></div>
+  <div class="right"></div>
+</section>
+```
+三个容器都左浮动，然后给左边的容器添加 margin-left: -100% 右边的容器添加 margin-right: -300px;，然后中间的容器中再新建一个子标签，给它添加 margin，就实现了双飞翼布局。
+
 # 怎么使文字垂直排布
 设置 writing-mode 为 vertical-lr; 使得文字垂直，阅读方向从 left -> right
 
@@ -94,7 +136,7 @@ inline-block：控制元素的垂直对齐跟横向排列元素。
 - 7、读取某些元素属性：(offsetLeft/Top/Height/Width,　clientTop/Left/Width/Height,　scrollTop/Left/Width/Height,　width/height,　getComputedStyle(),　currentStyle(IE))
 
 # BFC
-参考：https://juejin.im/post/59b73d5bf265da064618731d，理解 BFC 很好的文章。
+参考：https://juejin.im/post/59b73d5bf265da064618731d 理解 BFC 很好的文章。
 
 块格式上下文（BFC）是页面 CSS 视觉渲染的一部分，**用于决定块盒子的布局及浮动相互影响范围的一个区域。**
 
@@ -117,3 +159,36 @@ BFC的最显著的效果就是建立一个隔离的空间，断绝空间内外�
 - BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素，反之亦然；
 - 计算BFC的高度时，考虑BFC所包含的所有元素，连浮动元素也参与计算；
 - 浮动盒区域不叠加到BFC上；
+
+# 自适应和响应式的区别
+参考：https://www.cnblogs.com/yuanziwen/p/6926561.html
+
+自适应是随着游览器的大小变化而变化（百分比布局），响应式是适应屏幕尺寸（使用媒体查询），自动识别屏幕宽度、并做出相应调整的网页设计。
+
+# ::before 和 :before
+参考：https://www.cnblogs.com/Isabel4u/p/7398321.html
+
+两者的作用并没有什么区别，但是 :: 和 : 是 CSS3 为了区分 伪类 和 伪元素的一种写法。（伪类，首先是类的一种，作用于标签本身（状态）伪元素首先是元素，作用于内容本身）before 就是伪元素。
+
+# 细讲一下 rem 和其他单位之间的区别
+rem 是一个相对单位，但是相对的只是 HTML 根元素，而 em 是相对父元素的。1rem = 16px，当设置 HTML 的 font-size 为 625% 的时候，1rem 就为 10px。
+
+# flex布局和传统布局有什么区别
+布局的传统解决方案是基于盒模型的，依赖 display + position + float 属性，对于特殊的布局非常不方便，比如垂直居中。  
+
+而 flex 布局，可以简便、完整、响应式地实现各种页面布局。
+
+# 移动端 300ms 延迟如何解决
+移动端 300ms 延迟是因为手机上面有双击缩放的功能，游览器器需要判断用户是否点击了两次，所以需要等 300ms。
+
+### 解决：
+1. 禁用缩放 `<meta name="viewport" content="user-scalable=no">`
+2. 更改默认视口宽度 `<meta name="viewport" content="width=devicd-width">`
+3. 使用 fastclick
+
+# 移动端点击穿透
+在移动端游览器，时间的执行顺序是 touchstart -> touchend -> click
+
+现在我们有 A, B 两个元素， A 在 B 的上方，因为 click 事件有 300ms 延迟，所以如果我们给 A 元素 绑定 touchstart 事件，让 A 在 touchstart 的时候隐藏，这个时候因为会再出发 click 事件，所以事件就穿透到了 B 元素上面，如果 B 元素绑定了 click 事件的话，就会生效。
+
+

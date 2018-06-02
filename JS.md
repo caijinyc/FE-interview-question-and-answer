@@ -52,14 +52,12 @@ const ajax = function (opt) {
 ```js
 let m = function () {
   let i = 1
-  return funcion () {
-    return {
-      geti () {
-        return i
-      },
-      seti (newVal) {
-        i = newVal
-      }
+  return {
+    geti () {
+      return i
+    },
+    seti (newVal) {
+      i = newVal
     }
   }
 }
@@ -97,7 +95,7 @@ window -> doucument -> html -> body -> ... -> 目标事件
 - 如果不符合这些规则的话，this 就指向全局，游览器中就指向 window，**但是在严格模式下，this 的值为 undefined**
 - 使用箭头函数的时候，this 表示上下文
 
-# prototype  和 __proto__ 的关系
+# prototype  和 proto 的关系
 - `prototype` 指向的是方法的原型
 - `__proto__` 指向的是该对象的构造函数的原型对象
 - 顺便提一下 `constructor` 指向构造函数
@@ -178,6 +176,13 @@ function unique (arr) {
 # 回调函数
 ### Promise
 Promise 简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise对象提供统一的接口，使得控制异步操作更加容易。
+
+**Promise.all() 和 Promise.race()**  
+使用 Promise.all() 和 Promise.race() 都可以将多个 Promise 实例包装成一个新的实例，区别在与：
+- Promise.all() 当所有 Promise 的状态都变成的成功，才会返回一个所有返回值组成的一个数组给回调
+- Promise.all() 当有一个 Promise 的状态成功，就返回那个成功的值给回调
+- Promise.all() 和 Promise.race() 发生 rejected 的时候就会立刻返回 rejected，如果 Promise 设置了自己的 catch，则不会触发 Promise.all() 的 catch。
+
 
 **实现 Promise.finally()**  
 ```js
@@ -262,7 +267,7 @@ function clone (val) {
 # this
 - 当使用 apply call bind 函数的时候，this 是传入的对象
 - 当 this 被 new 关键词创建的时候，this 是一个全新的对象
-- 箭头函数的是时候，this 是上下文
+- 箭头函数的时候，this 是上下文
 - 对象里的函数在被对象引用的时候是指向引用它的对象
 - 不符合上述规则的时候，则指向全局，游览器里面则指向 window，在严格模式下则为 undefined
 
@@ -309,7 +314,7 @@ function reverse (str) {
 # map 和 forEach
 如果需要返回新的数组，那么就使用 map，不需要返回就用 forEach。（都不会改变数组本身）
 
-# slice splice split
+# slice splice split 
 ### slice
 slice 用来创建新的数组，**不会改变原来的数组**。接受两个参数，也就是开始截取的位置和结束截取的位置。当只传递一个参数的时候，截取到最后。
 
@@ -424,4 +429,29 @@ class 就是一个语法糖，让对象原型的写法更加清晰。里面的 `
   - **引用值可以调整内部值！！**(可能设计的时候没有考虑周全!)
 
 
-# 
+# (a == 1 && a == 2 && a == 3) 是否有可能为 true
+参考：https://www.cnblogs.com/baizhanshi/p/4604257.html
+
+如果一个值是对象，另一个值是数字或字符串，则将对象转换为原始值，然后再进行比较。对象通过 toString() 方法或 valueOf() 方法转换为原始值。
+
+这个时候我们给对象定义一个 toString 方法，就可以了。
+```js
+const a = {
+  i: 1,
+  toString: function () {
+    return a.i++;
+  }
+}
+if(a == 1 && a == 2 && a == 3) {
+  console.log('Hello World!');
+}
+```
+
+# 为什么 typeof null 为 Object
+从逻辑角度来看，null值表示一个空对象指针，而这正是使用typeof操作符检测null值时会返回“object”的原因。实际上应该是一个历史遗留的BUG。
+
+# JS数据类型有哪些
+- 基本类型：Number, string, boolean, null, undefined, symbol
+- 引用类型：Object, Array, Function
+
+基本类型存放在栈区，引用类型保存的是一个在堆内存中的地址（可以拓展到深复制）。

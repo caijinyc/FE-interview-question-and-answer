@@ -1,5 +1,3 @@
-# HTTP
-
 # HTTP 协议状态码
 - 200 请求成功
 - 206 客户端请求范围数据，服务器返回
@@ -22,9 +20,10 @@
 HTTP + 加密 + 认证 + 保护 = HTTPS
 
 ### SSL 加密
-
+TODO
 
 # JWT-token
+TODO
 
 # 跨域
 ### 什么是同源策略
@@ -38,7 +37,10 @@ HTTP + 加密 + 认证 + 保护 = HTTPS
 当需要通讯的时候，本地创建一个 script 元素，地址指向 api 网址，并提供一个回调函数来接受数据（与后端约定函数名）。
 
 ### CORS 跨域资源共享
-需要在服务器端设置响应头
+只需要需要在服务器端设置响应头
+
+**原理：** 
+CORS原理只需要向响应头header中注入Access-Control-Allow-Origin，这样浏览器检测到header中的Access-Control-Allow-Origin，则就可以跨域操作了。
 
 ### PostMessage
 
@@ -65,5 +67,21 @@ Cookie 是客户端保存用户信息的一种机制，用来记录用户的一�
 - 设置 Cache-control: max-age
 - 设置 Etag
 
+# 浏览器缓存有哪些
 
-# Content-Type 请求头里面有什么
+浏览器缓存分为强缓存和协商缓存。  
+
+强缓存：浏览器在加载资源时，首先根据资源的HTTP Header判断是否命中强缓存，如果命中，则不会发送请求到服务器。  
+
+协商缓存：如果强缓存没有命中，服务器一定会发送一个请求到服务器。通过服务端一些其他的一些HTTP Header去判断是否命中协商缓存，如果命中，服务器会将这个请求返回（304）。但不会返回数据，告诉客户端可以从缓存中加载这个资源，若未命中，则返回数据，并更新本地缓存。  
+
+设置缓存通常通过meta标签和HTTP头信息，meta标签主要通过pragma no-cache控制，HTTP Header主要通过Expires（强缓存）、Cache-control（强缓存）、Last-Modified/If-Modified-Since（协商缓存）、Etag/If-None-Match（协商缓存）实现。
+
+# http 响应中 Content-type 包含哪些内容
+包含请求中的消息主体是用何种方式编码
+
+application/x-www-form-urlencoded  
+这是最常见的 POST 提交数据的方式 按照 key1=val1&key2=val2 的方式进行编码
+
+application/json  
+告诉服务端消息主体是序列化后的 JSON 字符串
