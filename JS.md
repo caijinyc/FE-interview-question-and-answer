@@ -1,7 +1,7 @@
 # Ajax
 Ajax的原理简单来说通过XmlHttpRequest对象来向服务器发异步请求，从服务器获得数据，然后用javascript来操作DOM而更新页面。
 
-### 手写 Ajax
+### 使用 Promise 实现一个 Ajax 请求
 ```js
 const ajax = function (opt) {
   const promise = new Promise(function(resolve, reject) {
@@ -46,21 +46,21 @@ const ajax = function (opt) {
 - 4	 完成响应状态：此时，已经完成了HTTP响应的接收
 
 # 闭包
-闭包是函数和声明该函数的词法环境的组合。
+可以把闭包理解为就是能够读取其他函数内部变量的函数,因为js中,只有函数内部的子函数才能读取局部变量，因此也可以把闭包定义在一个函数内部的函数。所以闭包本质就是将函数内部和函数外部连接起来的一座桥梁"。
 
 **作用：** 创建私有变量
 ```js
-let m = function () {
+let m = (function () {
   let i = 1
   return {
     geti () {
       return i
     },
-    seti (newVal) {
+    seti (newVal = 1) {
       i = newVal
     }
   }
-}
+})()
 ```
 
 # 事件模型
@@ -72,17 +72,23 @@ JS 中有两种事件模型，分别是 DOM0 和 DOM2。
 **DOM2**  
 DOM2 的时候就有了**事件捕捉**和**事件冒泡**。顺便提一下事件流，事件流就是**事件捕获 --> 目标事件 --> 事件冒泡**。
 
-**事件捕获的具体流程**  
+**事件捕获的具体流程** (事件冒泡则相反)
 ```
 window -> doucument -> html -> body -> ... -> 目标事件
 ```
-事件冒泡则相反
 
 **DOM2 中的添加和删除事件**  
 使用 `addEventListener` 和 `removeEventListener` 来添加和删除事件。
 
-**然后利用事件冒泡还可以实现事件捕获**  
+**然后利用事件冒泡还可以实现事件委托**  
 使用 event.target 来实现
+
+优点：  
+- 减少事件注册，节省内存。比如
+  - 在 ul 上代理所有 li 的 click 事件。
+- 简化了 dom 节点更新时，相应事件的更新。比如
+  - 不用在新添加的 li 上绑定 click 事件。
+  - 当删除某个 li 时，不用移解绑上面的 click 事件。
 
 # 作用域链
 **解释一下作用域链**  
@@ -98,7 +104,7 @@ window -> doucument -> html -> body -> ... -> 目标事件
 # prototype  和 proto 的关系
 - `prototype` 指向的是方法的原型
 - `__proto__` 指向的是该对象的构造函数的原型对象
-- 顺便提一下 `constructor` 指向构造函数
+- 顺便提一下 `constructor` ：指向构造函数
 
 # 继承
 参考：[JS实现继承的几种方法](https://zhuanlan.zhihu.com/p/25578222)
@@ -121,11 +127,12 @@ window -> doucument -> html -> body -> ... -> 目标事件
 使用构造函数的时候发现，在创建 Child 原型的时候调用 Parent 构造函数只是为了获得 Parent 的原型，所以会想到让 Child.prototype = Parent.prototype，但是样子子的话，如果改变 Child.prototype 就会同时改变 Parent.prototype（浅复制）。所以这个时候就需要用到 Object.creat() 来创建 Child.prototype 的构造函数的原型，这样就完美了。
 
 ### 5.ES6 继承
-使用 `extends` 关键字实现继承。
+使用 `extends` 关键字实现继承。具体可以百度 `ES6 阮一峰 class`
 
 # 数组去重
 参考：https://github.com/lifesinger/blog/issues/113
-### 直觉方案
+
+### 直接想到的方案
 ```js
 function unique (arr) {
   let ret = [], item
@@ -166,7 +173,7 @@ function unique (arr) {
 }
 ```
 
-### 使用 ES6 中的 Set
+### 最简单的方案：使用 ES6 中的 Set
 参考：http://es6.ruanyifeng.com/#docs/set-map
 
 ```js
@@ -180,7 +187,7 @@ Promise 简单说就是一个容器，里面保存着某个未来才会结束的
 **Promise.all() 和 Promise.race()**  
 使用 Promise.all() 和 Promise.race() 都可以将多个 Promise 实例包装成一个新的实例，区别在与：
 - Promise.all() 当所有 Promise 的状态都变成的成功，才会返回一个所有返回值组成的一个数组给回调
-- Promise.all() 当有一个 Promise 的状态成功，就返回那个成功的值给回调
+- Promise.race() 当有一个 Promise 的状态成功，就返回那个成功的值给回调
 - Promise.all() 和 Promise.race() 发生 rejected 的时候就会立刻返回 rejected，如果 Promise 设置了自己的 catch，则不会触发 Promise.all() 的 catch。
 
 
@@ -451,7 +458,51 @@ if(a == 1 && a == 2 && a == 3) {
 从逻辑角度来看，null值表示一个空对象指针，而这正是使用typeof操作符检测null值时会返回“object”的原因。实际上应该是一个历史遗留的BUG。
 
 # JS数据类型有哪些
-- 基本类型：Number, string, boolean, null, undefined, symbol
+- 基本类型：number, string, boolean, null, undefined, symbol
 - 引用类型：Object, Array, Function
 
 基本类型存放在栈区，引用类型保存的是一个在堆内存中的地址（可以拓展到深复制）。
+
+# 统计单词出现个数
+```js
+function countWord (str, item) {
+  let arr = str.split(' '), counts = 0
+  arr.forEach(val => {
+    if (val === item) {
+      counts++
+    }
+  })
+  return counts
+}
+```
+
+# 获取 class="a" 的所有 div 元素
+方法1：
+```js
+let div = document.querySelectorAll('div[class="a"]')
+```
+
+方法2：
+```js
+let div = document.querySelectorAll('div.a')
+```
+
+方法3：当游览器(IE8以下)不支持 `querySelectorAll`
+```js
+var list = document.getElementsByClassName('bo-dropdowm-menu');
+var rel  = [];
+var i;
+
+for (i = 0; i < list.length; ++i)
+    {
+        if (list[i].tagName === 'DIV') {
+            rel.push(list[i]);
+        }
+    }
+
+// 这个就是你想要的结果了
+console.log(rel);
+```
+
+# 添加删除元素
+`element.appendChild()` 和 `element.removeChild()`

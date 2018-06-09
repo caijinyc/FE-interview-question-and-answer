@@ -135,6 +135,8 @@ inline-block：控制元素的垂直对齐跟横向排列元素。
 - 6、填充内容的改变，比如文本的改变或图片大小改变而引起的计算值宽度和高度的改变；
 - 7、读取某些元素属性：(offsetLeft/Top/Height/Width,　clientTop/Left/Width/Height,　scrollTop/Left/Width/Height,　width/height,　getComputedStyle(),　currentStyle(IE))
 
+### 拓展问题：CSS 中哪些属性对页面 repaint 和 reflow 影响最大
+float、line-height
 # BFC
 参考：https://juejin.im/post/59b73d5bf265da064618731d 理解 BFC 很好的文章。
 
@@ -170,6 +172,11 @@ BFC的最显著的效果就是建立一个隔离的空间，断绝空间内外�
 
 两者的作用并没有什么区别，但是 :: 和 : 是 CSS3 为了区分 伪类 和 伪元素的一种写法。（伪类，首先是类的一种，作用于标签本身（状态）伪元素首先是元素，作用于内容本身）before 就是伪元素。
 
+还有一些其他的伪元素：
+- `::first-letter`：将特殊的样式添加到文本的首字母
+- `::first-line`：将特殊的样式添加到文本的首行
+- `::after`：在某元素之前插入某些内容
+
 # 细讲一下 rem 和其他单位之间的区别
 rem 是一个相对单位，但是相对的只是 HTML 根元素，而 em 是相对父元素的。1rem = 16px，当设置 HTML 的 font-size 为 625% 的时候，1rem 就为 10px。
 
@@ -178,17 +185,6 @@ rem 是一个相对单位，但是相对的只是 HTML 根元素，而 em 是相
 
 而 flex 布局，可以简便、完整、响应式地实现各种页面布局。
 
-# 移动端 300ms 延迟如何解决
-移动端 300ms 延迟是因为手机上面有双击缩放的功能，游览器器需要判断用户是否点击了两次，所以需要等 300ms。
 
-### 解决：
-1. 禁用缩放 `<meta name="viewport" content="user-scalable=no">`
-2. 更改默认视口宽度 `<meta name="viewport" content="width=devicd-width">`
-3. 使用 fastclick
-
-# 移动端点击穿透
-在移动端游览器，时间的执行顺序是 touchstart -> touchend -> click
-
-现在我们有 A, B 两个元素， A 在 B 的上方，因为 click 事件有 300ms 延迟，所以如果我们给 A 元素 绑定 touchstart 事件，让 A 在 touchstart 的时候隐藏，这个时候因为会再出发 click 事件，所以事件就穿透到了 B 元素上面，如果 B 元素绑定了 click 事件的话，就会生效。
-
-
+# 三种隐藏方式差别 `:visibility:hidden, display:none, opacity:0`
+`display: none` 会让元素消失且不占据页面空间，其他两个会隐藏但是还是会占据页面上的空间。
