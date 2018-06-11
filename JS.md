@@ -1,4 +1,4 @@
-# Ajax
+## Ajax
 Ajax的原理简单来说通过XmlHttpRequest对象来向服务器发异步请求，从服务器获得数据，然后用javascript来操作DOM而更新页面。
 
 ### 使用 Promise 实现一个 Ajax 请求
@@ -45,7 +45,7 @@ const ajax = function (opt) {
 - 3	 正在接收状态：此时，已经接收到HTTP响应头部信息，但是消息体部分还没有完全接收到
 - 4	 完成响应状态：此时，已经完成了HTTP响应的接收
 
-# 闭包
+## 闭包
 可以把闭包理解为就是能够读取其他函数内部变量的函数,因为js中,只有函数内部的子函数才能读取局部变量，因此也可以把闭包定义在一个函数内部的函数。所以闭包本质就是将函数内部和函数外部连接起来的一座桥梁"。
 
 **作用：** 创建私有变量
@@ -63,11 +63,11 @@ let m = (function () {
 })()
 ```
 
-# 事件模型
-JS 中有两种事件模型，分别是 DOM0 和 DOM2。
+## 事件模型
+JS 中有两种事件模型，分别是 DOM0级事件模型 和 DOM2级事件模型。
 
 **DOM0**  
-`onclick` 
+　DOM0级事件模型是早期的事件模型，所有的浏览器都是支持的，而且其实现也是比较简单。比如：`onclick` 方法。
 
 **DOM2**  
 DOM2 的时候就有了**事件捕捉**和**事件冒泡**。顺便提一下事件流，事件流就是**事件捕获 --> 目标事件 --> 事件冒泡**。
@@ -90,23 +90,23 @@ window -> doucument -> html -> body -> ... -> 目标事件
   - 不用在新添加的 li 上绑定 click 事件。
   - 当删除某个 li 时，不用移解绑上面的 click 事件。
 
-# 作用域链
+## 作用域链
 **解释一下作用域链**  
 内层的函数可以访问外层函数的变量，但是外层的函数无法访问内部函数的变量。
 
-# this
+## this
 - 如果在调用函数的时候使用了 new，那么函数内的 this 就是一个全新的对象
 - 使用 call、apply、bind 的时候，this 就是传入的对象
 - 当函数作为对象里的方法被调用的时候，this 指向这个对象
 - 如果不符合这些规则的话，this 就指向全局，游览器中就指向 window，**但是在严格模式下，this 的值为 undefined**
 - 使用箭头函数的时候，this 表示上下文
 
-# prototype  和 proto 的关系
+## prototype  和 proto 的关系
 - `prototype` 指向的是方法的原型
 - `__proto__` 指向的是该对象的构造函数的原型对象
 - 顺便提一下 `constructor` ：指向构造函数
 
-# 继承
+## 继承
 参考：[JS实现继承的几种方法](https://zhuanlan.zhihu.com/p/25578222)
 ### 1.原型链实现继承
 实现：将 Child 的 prototype 设置为 new Parent() 也就是 Child 的 prototype 为 Parent 的实例。  
@@ -129,7 +129,7 @@ window -> doucument -> html -> body -> ... -> 目标事件
 ### 5.ES6 继承
 使用 `extends` 关键字实现继承。具体可以百度 `ES6 阮一峰 class`
 
-# 数组去重
+## 数组去重
 参考：https://github.com/lifesinger/blog/issues/113
 
 ### 直接想到的方案
@@ -180,7 +180,7 @@ function unique (arr) {
 [...new Set(array)]
 ```
 
-# 回调函数
+## 回调函数
 ### Promise
 Promise 简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise对象提供统一的接口，使得控制异步操作更加容易。
 
@@ -240,7 +240,7 @@ makeRequest()
 ### async 的缺点
 当需要检测错误的使用，需要使用 try...catch
 
-# 深拷贝
+## 深拷贝
 ### JSON.parse(JSON.stringify(obj))
 最简单，但是不能复制函数（不能被 JSON.stringify 的会被忽略），且原型链丢失。
 
@@ -271,14 +271,14 @@ function clone (val) {
 }
 ```
 
-# this
+## this
 - 当使用 apply call bind 函数的时候，this 是传入的对象
 - 当 this 被 new 关键词创建的时候，this 是一个全新的对象
 - 箭头函数的时候，this 是上下文
 - 对象里的函数在被对象引用的时候是指向引用它的对象
 - 不符合上述规则的时候，则指向全局，游览器里面则指向 window，在严格模式下则为 undefined
 
-# arguments
+## arguments
 ### arguments 是数组吗
 arguments 不是一个数组，它是一个类数组的对象。Array.isArray 返回 false。
 
@@ -293,14 +293,14 @@ Array.prototype.concat([], arguments)
 ### 类数组和数组的区别
 类数组可以拥有 length 属性，以及索引元素。但是没有别的任何 Array 的属性。
 
-# push, pop, shift, unshift
+## push, pop, shift, unshift
 shift()方法：移除数组中的第一项并返回该项  
 push()方法：从数组末端添加项
 
 unshift()方法：在数组的前端添加项  
 pop()方法：从数组末端移除项
 
-# 字符串反转
+## 字符串反转
 方法1：
 ```js
 str.split('').reverse().join('')
@@ -318,10 +318,10 @@ function reverse (str) {
 }
 ```
 
-# map 和 forEach
+## map 和 forEach
 如果需要返回新的数组，那么就使用 map，不需要返回就用 forEach。（都不会改变数组本身）
 
-# slice splice split 
+## slice splice split 
 ### slice
 slice 用来创建新的数组，**不会改变原来的数组**。接受两个参数，也就是开始截取的位置和结束截取的位置。当只传递一个参数的时候，截取到最后。
 
@@ -334,10 +334,10 @@ slice 用来创建新的数组，**不会改变原来的数组**。接受两个�
 ### split、join
 split 用来分割字符串变为数组，join 用来将数组拼接成字符串。
 
-# data-x
+## data-x
 用来自定义属性，通过 dataset 可以添加和获取。当然也可以通过 getAttribute 、setAttribute 获取和设置。
 
-# 实现 bind()、call()、apply()
+## 实现 bind()、call()、apply()
 参考：https://www.jianshu.com/p/6a1bc149b598
 
 ### 实现一个 apply 方法
@@ -395,7 +395,7 @@ Function.prototype.bind = Function.prototype.bind || function (context) {
 }
 ```
 
-# slice、substr、substring 的区别
+## slice、substr、substring 的区别
 ### slice
 slice() 方法可从已有的数组、字符串中返回选定的元素。  
 语法：`str.slice(start, end)`
@@ -410,25 +410,25 @@ console.log(str.substr(2, 3)) // "345"
 console.log(str.substring(2, 3)) // "3"
 ```
 
-# 获取元素的页面坐标
+## 获取元素的页面坐标
 使用 dom.getBoundingClientRect() 来获取元素距离上下左右的距离。就可以计算出元素位于页面的坐标。
 
-# clientWidth、offsetWidth、scrollWidth 的区别
+## clientWidth、offsetWidth、scrollWidth 的区别
 - clientWidth = width(可视区) + padding
 - offsetWidth = width(可视区) + padding + border
 - scrollWidth = width(内容区)　
 
-# setTimeout() 的原理
+## setTimeout() 的原理
 setTimeout 方法包含两个参数，第一个参数为一个函数，第二个参数为以毫秒为单位的时间。该方法的实际作用即：在一定时间之后，把一个函数加入消息队列末尾。如果这个时间点消息队列中还存在其他消息，那么该函数会在排在他之前的消息都执行完之后再开始执行。
 
-# ES6 class 类的原理
+## ES6 class 类的原理
 class 就是一个语法糖，让对象原型的写法更加清晰。里面的 `constructor` 方法对应的就是 ES5 中的构造函数，而 class 里面的方法则是定义了构造函数原型上内容。
 
-# innerHTML 和 innerText 的区别
+## innerHTML 和 innerText 的区别
 - innerHTML 指的是从对象的起始位置到终止位置的全部内容，包括 Html 标签。
 - innerText 指的是从起始位置到终止位置的内容，但它去除 Html 标签。
 
-# var, let, const 区别
+## var, let, const 区别
 - var 声明的变量，其作用域为该语句所在的函数内，且存在变量提升现象，可以重复声明
 - let 会产生块级作用域，不会造成变量提升，无法重新声明(但可以重新赋值)
 - const
@@ -436,7 +436,7 @@ class 就是一个语法糖，让对象原型的写法更加清晰。里面的 `
   - **引用值可以调整内部值！！**(可能设计的时候没有考虑周全!)
 
 
-# (a == 1 && a == 2 && a == 3) 是否有可能为 true
+## (a == 1 && a == 2 && a == 3) 是否有可能为 true
 参考：https://www.cnblogs.com/baizhanshi/p/4604257.html
 
 如果一个值是对象，另一个值是数字或字符串，则将对象转换为原始值，然后再进行比较。对象通过 toString() 方法或 valueOf() 方法转换为原始值。
@@ -454,16 +454,16 @@ if(a == 1 && a == 2 && a == 3) {
 }
 ```
 
-# 为什么 typeof null 为 Object
+## 为什么 typeof null 为 Object
 从逻辑角度来看，null值表示一个空对象指针，而这正是使用typeof操作符检测null值时会返回“object”的原因。实际上应该是一个历史遗留的BUG。
 
-# JS数据类型有哪些
+## JS数据类型有哪些
 - 基本类型：number, string, boolean, null, undefined, symbol
 - 引用类型：Object, Array, Function
 
 基本类型存放在栈区，引用类型保存的是一个在堆内存中的地址（可以拓展到深复制）。
 
-# 统计单词出现个数
+## 统计单词出现个数
 ```js
 function countWord (str, item) {
   let arr = str.split(' '), counts = 0
@@ -476,7 +476,7 @@ function countWord (str, item) {
 }
 ```
 
-# 获取 class="a" 的所有 div 元素
+## 获取 class="a" 的所有 div 元素
 方法1：
 ```js
 let div = document.querySelectorAll('div[class="a"]')
@@ -504,5 +504,5 @@ for (i = 0; i < list.length; ++i)
 console.log(rel);
 ```
 
-# 添加删除元素
+## 添加删除元素
 `element.appendChild()` 和 `element.removeChild()`
