@@ -11,7 +11,7 @@
 | 知识点                                                       |                                                              |                                                              |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [JavaScript](https://github.com/CaiJinyc/FE-interview-question-and-answer/blob/master/JS.md) | [HTML](https://github.com/CaiJinyc/FE-interview-question-and-answer/blob/master/HTML.md) | [CSS](https://github.com/CaiJinyc/FE-interview-question-and-answer/blob/master/CSS.md) |
-| [HTTP 网络](https://github.com/CaiJinyc/FE-interview-question-and-answer/blob/master/CSS.md) | [框架](https://github.com/CaiJinyc/FE-interview-question-and-answer/blob/master/框架.md) | [其他](https://github.com/CaiJinyc/FE-interview-question-and-answer/blob/master/其他.md) |
+| [HTTP 网络](https://github.com/CaiJinyc/FE-interview-question-and-answer/blob/master/HTTP.md) | [框架](https://github.com/CaiJinyc/FE-interview-question-and-answer/blob/master/框架.md) | [其他](https://github.com/CaiJinyc/FE-interview-question-and-answer/blob/master/其他.md) |
 | [简单的算法](https://github.com/CaiJinyc/FE-interview-question-and-answer/blob/master/算法.md) |                                                              |                                                              |
 
 ## 面试题、面经
