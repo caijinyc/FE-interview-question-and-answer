@@ -64,10 +64,10 @@ let m = (function () {
 ```
 
 ## 事件模型
-JS 中有两种事件模型，分别是 DOM0级事件模型 和 DOM2级事件模型。
+JS 中有两种事件模型，分别是 DOM0 级事件模型 和 DOM2 级事件模型。
 
 **DOM0**  
-　DOM0级事件模型是早期的事件模型，所有的浏览器都是支持的，而且其实现也是比较简单。比如：`onclick` 方法。
+DOM0级事件模型是早期的事件模型，所有的浏览器都是支持的，而且其实现也是比较简单。比如：`onclick` 方法。
 
 **DOM2**  
 DOM2 的时候就有了**事件捕捉**和**事件冒泡**。顺便提一下事件流，事件流就是**事件捕获 --> 目标事件 --> 事件冒泡**。
@@ -89,6 +89,36 @@ window -> doucument -> html -> body -> ... -> 目标事件
 - 简化了 dom 节点更新时，相应事件的更新。比如
   - 不用在新添加的 li 上绑定 click 事件。
   - 当删除某个 li 时，不用移解绑上面的 click 事件。
+
+## 阻止事件冒泡
+DOM 中提供 `stopPropagation()` 方法，但IE不支持，使用 event 对象在事件函数中调用就行。
+
+IE中提供的是，`cancelBubble` 属性，默认为 false，当它设置为 true 时，就是阻止事件冒泡，也是用event对象在事件函数中调用
+
+## 事件循环
+参考：https://segmentfault.com/a/1190000010622146  
+
+JavaScript 引擎同一时刻只能执行一个代码块，所以需要跟踪即将运行的代码，那些代码被放在一个任务队列，每当一段代码准备执行的时候，都会被添加到任务队列，每当 JavaScript 引擎中的一段代码结束执行，事件循环会执行队列中的下一个任务，它是 JavaScript 引擎中的一段程序，负责监控代码执行并管理任务队列。（记住：队列中的任务会从第一个一直执行到最后一个）
+
+几个注意点：
+- 事件队列严格按照时间先后顺序将任务压入执行栈执行；
+- 当执行栈为空时，浏览器会一直不停的检查事件队列，如果不为空，则取出第一个任务；
+- 在每一个任务结束之后，浏览器会对页面进行渲染；
+
+代码题：
+```js
+setTimeout(() => {
+  console.log('a')
+  setTimeout(() => {
+    console.log('b')
+  }, 2000)
+}, 1000)
+
+setTimeout(() => {
+  console.log('c')
+}, 3000)
+```
+
 
 ## 作用域链
 **解释一下作用域链**  
@@ -202,6 +232,35 @@ Promise.prototype.finally = function (callback) {
     reason => P.resolve(callback()).then(() => {throw reason})
   )
 }
+```
+
+**Promise 链式调用**  
+直接在 then 里面返回一个 Promise 的对象，如下：
+
+```js
+let A = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    console.log('P1')
+    resolve(123)
+  }, 1000)
+})
+.then((val) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('P2')
+      resolve(val)
+    }, 1000)
+  })
+})
+.then((val) => {
+  setTimeout(() => {
+    console.log('P3: ', val)
+  }, 1000)
+})
+
+// P1
+// P2
+// P3: 123
 ```
 
 **Promise,async/await 三者的区别，以及为什么用 Promise，然后又变成了async/await**  
@@ -504,5 +563,15 @@ for (i = 0; i < list.length; ++i)
 console.log(rel);
 ```
 
-## 添加删除元素
-`element.appendChild()` 和 `element.removeChild()`
+## 创建添加删除元素
+### 创建
+`document.createElement("p")`
+
+### 添加删除
+- `element.appendChild()` 和 `element.removeChild()`
+- `innerHtml`
+
+## 有两个标签页，它们之间的 sessionStorage 可以共享吗？
+参考：https://github.com/lmk123/blog/issues/66
+
+通过点击链接（或者用了 window.open）打开的新标签页之间是属于同一个 session 的，但新开一个标签页总是会初始化一个新的 session，即使网站是一样的，它们也不属于同一个 session。

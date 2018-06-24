@@ -25,6 +25,7 @@ inline-block：控制元素的垂直对齐跟横向排列元素。
 - margin-top: 50%; + translateY
 
 ## 为什么要把 CSS 放在 head 中呢？
+
 其实放在那里都是可以的，如果把 CSS 放在 body 中的话，如果 html 先加载完成而 css 后加载完成的话，页面会因为没有样式而无法正常显示。
 
 ## 怪异盒模型（IE 盒模型）
@@ -35,6 +36,7 @@ inline-block：控制元素的垂直对齐跟横向排列元素。
 `box-sizing: boder-box;`
 
 ## 实现左侧固定右侧自适应
+
 ### float
 全部向左浮动，左侧宽度固定。
 
@@ -48,6 +50,7 @@ inline-block：控制元素的垂直对齐跟横向排列元素。
 ```
 
 ### flex
+
 ```css
 .box {
   display: flex;
@@ -128,15 +131,17 @@ inline-block：控制元素的垂直对齐跟横向排列元素。
 触发重排的条件：任何页面布局和几何属性的改变都会触发重排，比如：
 
 - 1、页面渲染初始化；(无法避免)
-- 2、添加或删除可见的DOM元素；
-- 3、元素位置的改变，或者使用动画；
-- 4、元素尺寸的改变——大小，外边距，边框；
-- 5、浏览器窗口尺寸的变化（resize事件发生时）；
-- 6、填充内容的改变，比如文本的改变或图片大小改变而引起的计算值宽度和高度的改变；
+- 2、添加或删除可见的DOM元素
+- 3、元素位置的改变，或者使用动画
+- 4、元素尺寸的改变——大小，外边距，边框
+- 5、浏览器窗口尺寸的变化（resize事件发生时）
+- 6、填充内容的改变，比如文本的改变或图片大小改变而引起的计算值宽度和高度的改变
 - 7、读取某些元素属性：(offsetLeft/Top/Height/Width,　clientTop/Left/Width/Height,　scrollTop/Left/Width/Height,　width/height,　getComputedStyle(),　currentStyle(IE))
 
 ### 拓展问题：CSS 中哪些属性对页面 repaint 和 reflow 影响最大
+
 float、line-height
+
 ## BFC
 参考：https://juejin.im/post/59b73d5bf265da064618731d 理解 BFC 很好的文章。
 
@@ -178,6 +183,7 @@ BFC的最显著的效果就是建立一个隔离的空间，断绝空间内外�
 - `::after`：在某元素之前插入某些内容
 
 ## 细讲一下 rem 和其他单位之间的区别
+
 rem 是一个相对单位，但是相对的只是 HTML 根元素，而 em 是相对父元素的。1rem = 16px，当设置 HTML 的 font-size 为 625% 的时候，1rem 就为 10px。
 
 ## flex布局和传统布局有什么区别
@@ -187,14 +193,16 @@ rem 是一个相对单位，但是相对的只是 HTML 根元素，而 em 是相
 
 
 ## 三种隐藏方式差别 
-#### :visibility:hidden, display:none, opacity:0
+**:visibility: hidden、display: none、opacity: 0**
+
 `display: none` 会让元素消失且不占据页面空间，其他两个会隐藏但是还是会占据页面上的空间。
 
 ## transform 有哪些功能
+
 - translate 转换
 - scale 伸缩
 - rotate 旋转
-等等
+- ...
 
 ## animation 参数
 - name：需要绑定到选择器的 keyframe 名称
@@ -205,4 +213,4 @@ rem 是一个相对单位，但是相对的只是 HTML 根元素，而 em 是相
 - direction：是否轮流反复播放
 
 ## 考虑过样式的兼容性吗？
-一般我会使用 `auto-prefixer` 来帮我添加样式的前缀，如果是在 js 中修改样式的话，我会自定义一个 `auto-prefixer` 来帮我在修改样式的时候添加前缀。
+一般我会使用 `auto-prefixer` 来帮我添加样式的前缀，但是如果是在 js 中修改样式的话，我会写一个 `auto-prefixer` 工具来帮我在修改样式的时候添加前缀。
